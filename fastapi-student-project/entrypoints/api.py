@@ -11,20 +11,19 @@ def get_student_service() -> StudentService:
     repo = InMemoryStudentRepository()
     return StudentService(repo)
 
+student_service = get_student_service()
+
 @router.get("/students", response_model=List[Student])
 def get_students():
-    service = get_student_service()
-    return service.get_all_students()
+    return student_service.get_all_students()
 
 @router.get("/students/{student_id}", response_model=Student)
 def get_student(student_id: int):
-    service = get_student_service()
-    student = service.get_student_by_id(student_id)
+    student = student_service.get_student_by_id(student_id)
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
     return student
 
 @router.post("/students", response_model=Student)
 def create_student(student: Student):
-    service = get_student_service()
-    return service.add_student(student.name, student.email)
+    return student_service.add_student(student.name, student.email)
