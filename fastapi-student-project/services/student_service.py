@@ -1,9 +1,9 @@
 from typing import List, Optional
 from domain.student import Student
-from repositories.student_repository import StudentRepository
+from repositories.interfaces import Repository
 
 class StudentService:
-    def __init__(self, repository: StudentRepository):
+    def __init__(self, repository: Repository):
         self.repository = repository
 
     def get_all_students(self) -> List[Student]:

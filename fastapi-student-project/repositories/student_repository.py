@@ -1,24 +1,13 @@
-from abc import ABC, abstractmethod
 from typing import List, Optional
 from domain.student import Student
+from repositories.interfaces import Repository
 
-class StudentRepository(ABC):
-    @abstractmethod
-    def get_all(self) -> List[Student]:
-        pass
-
-    @abstractmethod
-    def get_by_id(self, student_id: int) -> Optional[Student]:
-        pass
-
-    @abstractmethod
-    def add(self, student: Student) -> Student:
-        pass
-
-class InMemoryStudentRepository(StudentRepository):
+class InMemoryStudentRepository(Repository):
     def __init__(self):
-        self.students: List[Student] = []
-        self.next_id = 1
+        self.students: List[Student] = [
+            Student(id=1, name="Alice", email="test@example")
+        ]
+        self.next_id = 2
 
     def get_all(self) -> List[Student]:
         return self.students.copy()
