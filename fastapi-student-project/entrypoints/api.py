@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from typing import List
-from domain.student import Student
+from domain.models import Student
 from services.student_service import StudentService
 
 router = APIRouter()

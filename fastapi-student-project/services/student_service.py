@@ -1,5 +1,5 @@
 from typing import List, Optional
-from domain.student import Student
+from domain.models import Student
 from repositories.interfaces import Repository
 
 class StudentService:

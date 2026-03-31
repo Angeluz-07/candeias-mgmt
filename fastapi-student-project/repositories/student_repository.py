@@ -1,11 +1,11 @@
 from typing import List, Optional
-from domain.student import Student
+from domain.models import Student
 from repositories.interfaces import Repository
 
 class InMemoryStudentRepository(Repository):
     def __init__(self):
         self.students: List[Student] = [
-            Student(id=1, name="Alice", email="test@example")
+            Student(id="d7c5b248-ce66-4485-ac28-36d49149c2a1", name="Alice", email="test@example")
         ]
         self.next_id = 2
 
