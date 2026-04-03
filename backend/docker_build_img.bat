@@ -1,0 +1,1 @@
+docker build -t angeluz07/candeias-mgmt:0.0.1 .
