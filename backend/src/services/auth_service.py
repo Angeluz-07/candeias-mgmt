@@ -2,12 +2,13 @@ from authx import AuthX, AuthXConfig
 from pwdlib import PasswordHash
 from src.domain.models import User
 from src.repositories.interfaces import Repository
+from config import SECRET_KEY
 
 # 1. Configuración de Seguridad
 password_helper = PasswordHash.recommended()
 
 config = AuthXConfig(
-    JWT_SECRET_KEY="SUPER_SECRET",  # Usa una clave real en prod
+    JWT_SECRET_KEY=SECRET_KEY,  # Usa una clave real en prod
     JWT_ACCESS_COOKIE_NAME="access_token",
     JWT_TOKEN_LOCATION=["headers"],
 )

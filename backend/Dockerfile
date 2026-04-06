@@ -17,4 +17,4 @@ COPY . .
 # Expose gradio port
 EXPOSE 8000 
 
-CMD ["sh", "-c", "python main.py --host 0.0.0.0 --port 8000"]
+CMD ["sh", "-c", "python src/main.py --host 0.0.0.0 --port 8000"]

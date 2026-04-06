@@ -3,7 +3,7 @@ from src.repositories.student_repository import InMemoryStudentRepository
 from src.services.auth_service import AuthService
 from src.services.student_service import StudentService
 from src.domain.models import User, Student
-
+from config import ENVIRONMENT
 
 class AppContext:
     def __init__(self):
@@ -38,8 +38,14 @@ class AppContext:
         )
         self.student_repo.add(s1)
 
-dev_context = AppContext()
-dev_context.seed_data()
+auth_service = None
+student_service = None
 
-auth_service = dev_context.auth_service
-student_service = dev_context.student_service
+if ENVIRONMENT == "dev":
+    dev_context = AppContext()
+    dev_context.seed_data()
+
+    auth_service = dev_context.auth_service
+    student_service = dev_context.student_service
+else:
+    raise RuntimeError("Unknown environment", ENVIRONMENT)
