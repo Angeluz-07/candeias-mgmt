@@ -15,3 +15,4 @@ class StudentService:
     def add_student(self, name: str, email: str) -> Student:
         student = Student(id=None, name=name, email=email)
         return self.repository.add(student)
+

@@ -30,12 +30,3 @@ class AuthService:
     def get_user_by_id(self, user_id):
         return self.user_repository.get_by_id(user_id)
 
-
-def get_auth_service():
-    from repositories.user_repository import InMemoryUserRepository
-
-    auth_service = AuthService(user_repository=InMemoryUserRepository())
-    return auth_service
-
-
-auth_service = get_auth_service()

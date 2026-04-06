@@ -1,21 +1,9 @@
 from fastapi import APIRouter, HTTPException
 from typing import List
 from domain.models import Student
-from services.student_service import StudentService
+from entrypoints.context import student_service
 
 router = APIRouter()
-
-
-def get_student_service() -> StudentService:
-    # In a real app, this would be dependency injection
-    from repositories.student_repository import InMemoryStudentRepository
-
-    repo = InMemoryStudentRepository()
-    return StudentService(repo)
-
-
-student_service = get_student_service()
-
 
 @router.get("/students", response_model=List[Student])
 def get_students():
@@ -40,7 +28,8 @@ from pydantic import BaseModel
 from fastapi import status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi import Depends
-from services.auth_service import auth_backend, auth_service
+from services.auth_service import auth_backend
+from entrypoints.context import auth_service
 
 
 class LoginRequest(BaseModel):
