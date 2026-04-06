@@ -1,5 +1,5 @@
-from domain.models import User
-from repositories.interfaces import Repository
+from src.domain.models import User
+from src.repositories.interfaces import Repository
 
 class InMemoryUserRepository(Repository):
     

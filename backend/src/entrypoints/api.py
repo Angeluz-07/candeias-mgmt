@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from typing import List
-from domain.models import Student
-from entrypoints.context import student_service
+from src.domain.models import Student
+from src.context import student_service
 
 router = APIRouter()
 
@@ -28,8 +28,8 @@ from pydantic import BaseModel
 from fastapi import status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi import Depends
-from services.auth_service import auth_backend
-from entrypoints.context import auth_service
+from src.services.auth_service import auth_backend
+from src.context import auth_service
 
 
 class LoginRequest(BaseModel):

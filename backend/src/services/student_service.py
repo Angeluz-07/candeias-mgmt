@@ -1,6 +1,6 @@
 from typing import List, Optional
-from domain.models import Student
-from repositories.interfaces import Repository
+from src.domain.models import Student
+from src.repositories.interfaces import Repository
 
 class StudentService:
     def __init__(self, repository: Repository):

@@ -1,8 +1,8 @@
-from repositories.user_repository import InMemoryUserRepository
-from repositories.student_repository import InMemoryStudentRepository
-from services.auth_service import AuthService
-from services.student_service import StudentService
-from domain.models import User, Student
+from src.repositories.user_repository import InMemoryUserRepository
+from src.repositories.student_repository import InMemoryStudentRepository
+from src.services.auth_service import AuthService
+from src.services.student_service import StudentService
+from src.domain.models import User, Student
 
 
 class AppContext:

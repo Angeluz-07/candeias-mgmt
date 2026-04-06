@@ -1,7 +1,7 @@
 from authx import AuthX, AuthXConfig
 from pwdlib import PasswordHash
-from domain.models import User
-from repositories.interfaces import Repository
+from src.domain.models import User
+from src.repositories.interfaces import Repository
 
 # 1. Configuración de Seguridad
 password_helper = PasswordHash.recommended()
