@@ -1,14 +1,24 @@
-from src.repositories.user_repository import InMemoryUserRepository
-from src.repositories.student_repository import InMemoryStudentRepository
+from src.repositories.user_repository import (
+    InMemoryUserRepository,
+    FirebaseUserRepository,
+)
+from src.repositories.student_repository import (
+    InMemoryStudentRepository,
+    FirebaseStudentRepository,
+)
 from src.services.auth_service import AuthService
 from src.services.student_service import StudentService
 from src.domain.models import User, Student
 from config import ENVIRONMENT
 
+
 class AppContext:
     def __init__(self):
-        self.user_repo = InMemoryUserRepository()
-        self.student_repo = InMemoryStudentRepository()
+        # self.user_repo = InMemoryUserRepository()
+        # self.student_repo = InMemoryStudentRepository()
+
+        self.user_repo = FirebaseUserRepository()
+        self.student_repo = FirebaseStudentRepository()
 
         self.auth_service = AuthService(user_repository=self.user_repo)
         self.student_service = StudentService(repository=self.student_repo)
@@ -37,6 +47,7 @@ class AppContext:
             email="test@example",
         )
         self.student_repo.add(s1)
+
 
 auth_service = None
 student_service = None
