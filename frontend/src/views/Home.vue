@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth'
 import { Button } from '@/components/ui/button'
+import { useRouter } from 'vue-router'
+
 import { 
   LogOut, 
   Dumbbell, 
@@ -12,11 +14,14 @@ import {
 
 const authStore = useAuthStore()
 
+const router = useRouter()
+
 // Computed or direct access works great with Pinia
 const user = authStore.user
 
 const handleLogout = () => {
   authStore.logout()
+  router.push({ name: 'login' })
   // You would typically redirect here, e.g., router.push('/login')
 }
 </script>
