@@ -12,6 +12,7 @@ import {
   Activity 
 } from 'lucide-vue-next'
 
+import StudentTable from './StudentTable.vue'
 const authStore = useAuthStore()
 
 const router = useRouter()
@@ -62,6 +63,10 @@ const handleLogout = () => {
         </p>
       </section>
 
+      <div class="p-6">
+    <h1 class="text-2xl font-bold mb-4">Gestión de Inventario</h1>
+      <StudentTable />
+  </div>
       <div class="grid grid-cols-2 gap-4">
         <div class="bg-zinc-900/50 p-4 rounded-2xl border border-zinc-800 space-y-3">
           <Activity class="text-[#FF6B00] w-6 h-6" />

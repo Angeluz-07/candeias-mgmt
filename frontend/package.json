@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@primeuix/themes": "^2.0.3",
     "@tailwindcss/vite": "^4.2.2",
     "@vueuse/core": "^14.2.1",
     "axios": "^1.14.0",
@@ -17,6 +18,7 @@
     "lucide-vue-next": "^1.0.0",
     "pinia": "^3.0.4",
     "pinia-plugin-persistedstate": "^4.7.1",
+    "primevue": "^4.5.5",
     "reka-ui": "^2.9.5",
     "tailwind-merge": "^3.5.0",
     "tailwindcss": "^4.2.2",
