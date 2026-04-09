@@ -14,11 +14,11 @@ from config import ENVIRONMENT
 
 class AppContext:
     def __init__(self):
-        # self.user_repo = InMemoryUserRepository()
-        # self.student_repo = InMemoryStudentRepository()
+        self.user_repo = InMemoryUserRepository()
+        self.student_repo = InMemoryStudentRepository()
 
-        self.user_repo = FirebaseUserRepository()
-        self.student_repo = FirebaseStudentRepository()
+        # self.user_repo = FirebaseUserRepository()
+        # self.student_repo = FirebaseStudentRepository()
 
         self.auth_service = AuthService(user_repository=self.user_repo)
         self.student_service = StudentService(repository=self.student_repo)
@@ -47,6 +47,20 @@ class AppContext:
             email="test@example",
         )
         self.student_repo.add(s1)
+
+        s2 = Student(
+            id="d7c5b248-ce66-4485-ac28-36d49149c2a2",
+            name="Bob",
+            email="testto@example",
+        )
+        self.student_repo.add(s2)
+
+        s3 = Student(
+            id="d7c5b248-ce66-4485-ac28-36d49149c2a2",
+            name="Thor",
+            email="thor@example",
+        )
+        self.student_repo.add(s3)
 
 
 auth_service = None

@@ -23,8 +23,8 @@ const loadLazyData = async (event?: any) => {
 
     try {
         const response = await StudentService.getStudents(params);
-        students.value = response.data;
-        totalRecords.value = response.totalRecords;
+        students.value = response;
+        //totalRecords.value = response.totalRecords;
     } finally {
         loading.value = false;
     }
@@ -48,17 +48,12 @@ onMounted(() => {
       @page="loadLazyData"
       @sort="loadLazyData"
       filterDisplay="menu"
-      responsiveLayout="scroll"
       class="p-datatable-sm"
     >
       <Column field="id" header="ID" sortable />
-      <Column field="name" header="Nombre del Producto" sortable />
-      <Column field="price" header="Precio">
-        <template #body="slotProps">
-          {{ new Intl.NumberFormat('es-EC', { style: 'currency', currency: 'USD' }).format(slotProps.data.price) }}
-        </template>
-      </Column>
-      <Column field="stock" header="Inventario" />
+      <Column field="name" header="Alumno" sortable />
+      <Column field="status" header="Status" />
+      <Column field="email" header="Email" />
     </DataTable>
   </div>
 </template>

@@ -24,10 +24,10 @@ const handleSubmit = (e: Event) => {
       
       <div class="text-center">
         <h1 class="text-6xl font-black italic tracking-tighter uppercase">
-          FIT<span class="text-[#FF6B00]">CLUB</span>
+          CANDE<span class="text-[#FF6B00]">IAS</span>
         </h1>
         <p class="text-zinc-500 text-[10px] tracking-[0.3em] uppercase mt-2 font-bold">
-          Guayaquil Edition
+          Guayaquil
         </p>
       </div>
 
