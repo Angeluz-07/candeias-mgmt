@@ -1,3 +1,16 @@
 firebase-tools-instant-win.exe
 firebase-debug.log
 firestore-debug.log
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.lock.hcl
+*.tfvars
+
+# Credenciales (SEGURIDAD)
+credentials.json
+
+#other
+recipe
