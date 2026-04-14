@@ -6,9 +6,11 @@ export const useAuthStore = defineStore('auth', () => {
   const token = ref<string | null>(null)
   const isAuthenticated = computed(() => !!token?.value)
 
-  function setAuth(newUser: any, newToken: string) {
-    user.value = newUser
+  function setToken(newToken: string) {
     token.value = newToken
+  }
+  function setUser(newUser: any) {
+    user.value = newUser
   }
 
   function logout() {
@@ -16,7 +18,7 @@ export const useAuthStore = defineStore('auth', () => {
     token.value = null
   }
 
-  return { user, token, isAuthenticated, setAuth, logout }
+  return { user, token, isAuthenticated, setToken, setUser, logout }
 }, 
 {
   persist: true // <--- Con esto, Pinia se encarga de todo el LocalStorage por ti

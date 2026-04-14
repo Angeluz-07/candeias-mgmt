@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import DataTable from 'primevue/datatable';
-import Column from 'primevue/column';
-import { StudentService } from '@/composables/studentService';
+import { ref, onMounted } from "vue";
+import DataTable from "primevue/datatable";
+import Column from "primevue/column";
+import { StudentService } from "@/services/studentService";
 
 const students = ref([]);
 const loading = ref(true);
@@ -11,40 +11,40 @@ const rows = ref(10); // Registros por página
 const first = ref(0); // Índice del primer registro
 
 const loadLazyData = async (event?: any) => {
-    loading.value = true;
+  loading.value = true;
 
-    // 'event' contiene la información de paginación y orden de PrimeVue
-    const params = {
-        page: event ? event.page : 0,
-        rows: event ? event.rows : rows.value,
-        sortField: event?.sortField,
-        sortOrder: event?.sortOrder,
-    };
+  // 'event' contiene la información de paginación y orden de PrimeVue
+  const params = {
+    page: event ? event.page : 0,
+    rows: event ? event.rows : rows.value,
+    sortField: event?.sortField,
+    sortOrder: event?.sortOrder,
+  };
 
-    try {
-        const response = await StudentService.getStudents(params);
-        students.value = response;
-        //totalRecords.value = response.totalRecords;
-    } finally {
-        loading.value = false;
-    }
+  try {
+    const { data } = await StudentService.getStudents();
+    students.value = data;
+    //totalRecords.value = response.totalRecords;
+  } finally {
+    loading.value = false;
+  }
 };
 
 onMounted(() => {
-    loadLazyData();
+  loadLazyData();
 });
 </script>
 
 <template>
   <div class="card">
-    <DataTable 
+    <DataTable
       v-model:first="first"
-      :value="students" 
-      lazy 
-      paginator 
-      :rows="rows" 
-      :totalRecords="totalRecords" 
-      :loading="loading" 
+      :value="students"
+      lazy
+      paginator
+      :rows="rows"
+      :totalRecords="totalRecords"
+      :loading="loading"
       @page="loadLazyData"
       @sort="loadLazyData"
       filterDisplay="menu"

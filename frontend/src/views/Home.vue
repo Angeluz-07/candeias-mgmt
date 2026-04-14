@@ -37,8 +37,8 @@ const handleLogout = () => {
       >
         <div class="flex items-center gap-2">
           <Flame class="text-[#FF6B00] w-8 h-8" />
-          <span class="font-black italic text-2xl tracking-tighter uppercase">
-            CANDE<span class="text-[#FF6B00]">IAS</span>
+          <span class="font-black italic text-2xl tracking-tighter">
+            Cande<span class="text-[#FF6B00]">ias</span>
           </span>
         </div>
 
@@ -58,10 +58,10 @@ const handleLogout = () => {
         <h2
           class="text-zinc-500 uppercase tracking-widest text-[10px] font-bold"
         >
-          Panel de Control
+          Control Panel
         </h2>
-        <h1 class="text-4xl font-black mt-2 leading-tight uppercase">
-          BIENVENIDO, <br />
+        <h1 class="text-4xl font-black mt-2 leading-tight ">
+          Bienvenido
           <span class="text-[#FF6B00] italic">{{
             user?.username || "ATLETA"
           }}</span>
@@ -69,7 +69,6 @@ const handleLogout = () => {
       </section>
 
       <div class="p-6">
-        <h1 class="text-2xl font-bold mb-4">Gestión de Inventario</h1>
         <StudentTable />
       </div>
 

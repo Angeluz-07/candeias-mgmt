@@ -1,50 +1,39 @@
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useAuthStore } from '@/stores/auth'
-import axios from 'axios'
-
-// Set your base URL once - Good for Guayaquil local dev or production
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000'
-})
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { useAuthStore } from "@/stores/auth";
+import { UserService } from "@/services/userService"; // Importas tus servicios
+import { AuthService } from "@/services/authService";
 
 export function useAuth() {
-  const store = useAuthStore()
-  const router = useRouter()
-  
-  const loading = ref(false)
-  const error = ref<string | null>(null)
+  const store = useAuthStore();
+  const router = useRouter();
+  const loading = ref(false);
+  const error = ref(null);
 
-  const login = async (credentials: any) => {
-    loading.value = true
-    error.value = null
+  const login = async (credentials) => {
+    loading.value = true;
+    error.value = null;
 
     try {
-      // 1. Post to Login
-      const { data } = await api.post('/login', credentials)
-      
-      // 2. Fetch "Me" data (common pattern in your previous projects)
-      const userResponse = await api.get('/me', {
-        headers: { Authorization: `Bearer ${data.access_token}` }
-      })
+      // 1. Llamada limpia al servicio
+      const { data } = await AuthService.login(credentials);
 
-      // 3. Update Store
-      store.setAuth(userResponse.data, data.access_token)
+      // Guardamos el token primero para que el interceptor lo use en la siguiente llamada
+      store.setToken(data.access_token);
 
-      // 4. Redirect
-      router.push('/home')
-    } catch (err: any) {
-      error.value = err.response?.data?.detail || 'Error al iniciar sesión'
+      // 2. Fetch "Me" (El interceptor ya pone el Bearer token solo)
+      const userResponse = await UserService.getMe();
+
+      // 3. Update Store completo
+      store.setUser(userResponse.data);
+
+      router.push("/home");
+    } catch (err) {
+      error.value = err.response?.data?.detail || "Error al iniciar sesión";
     } finally {
-      loading.value = false
+      loading.value = false;
     }
-  }
+  };
 
-  return {
-    login,
-    loading,
-    error,
-    user: store.user,
-    isAuthenticated: store.isAuthenticated
-  }
+  return { login, loading, error };
 }
