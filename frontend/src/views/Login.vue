@@ -23,11 +23,11 @@ const handleSubmit = (e: Event) => {
     <div class="w-full max-w-[360px] space-y-10">
       
       <div class="text-center">
-        <h1 class="text-6xl font-black italic tracking-tighter uppercase">
-          CANDE<span class="text-[#FF6B00]">IAS</span>
+        <h1 class="text-6xl font-black italic tracking-tighter">
+         Cande<span class="text-[#FF6B00]">ias</span>
         </h1>
         <p class="text-zinc-500 text-[10px] tracking-[0.3em] uppercase mt-2 font-bold">
-          Guayaquil
+          Guayaquil - Ecuador
         </p>
       </div>
 
@@ -63,7 +63,7 @@ const handleSubmit = (e: Event) => {
               :disabled="loading" 
               class="w-full h-16 bg-[#FF6B00] hover:bg-[#e66000] text-black font-black text-xl rounded-xl transition-transform active:scale-95 shadow-[0_0_20px_rgba(255,107,0,0.3)]"
             >
-              {{ loading ? "CARGANDO..." : "ENTRAR" }}
+              {{ loading ? "Cargando..." : "Entrar" }}
             </Button>
             
           </form>
