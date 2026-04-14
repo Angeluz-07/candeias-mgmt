@@ -9,12 +9,13 @@ sys.path.append(str(path_root))
 from fastapi import FastAPI
 from src.entrypoints.api import router
 from fastapi.middleware.cors import CORSMiddleware
-
+from config import FRONTEND_HOST
 app = FastAPI(title="Candeias Management API", version="0.0.1")
 
 # Handle CORS in local dev
 origins = [
     "http://localhost:5173",
+    FRONTEND_HOST
 ]
 
 app.add_middleware(

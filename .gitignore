@@ -12,5 +12,9 @@ firestore-debug.log
 # Credenciales (SEGURIDAD)
 credentials.json
 
+# deploy scripts
+deploy.bat
+
+
 #other
 recipe

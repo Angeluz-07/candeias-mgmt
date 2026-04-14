@@ -4,3 +4,4 @@ load_dotenv()
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 ENVIRONMENT = os.getenv("ENVIRONMENT")
+FRONTEND_HOST = os.getenv("FRONTEND_HOST")
