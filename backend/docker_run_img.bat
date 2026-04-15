@@ -1,1 +1,1 @@
-docker run -p 8000:8000 -it angeluz07/candeias-mgmt:0.0.1
+docker run --env-file .env --add-host=localhost:host-gateway -p 8000:8000 -it angeluz07/candeias-mgmt:0.0.1 
