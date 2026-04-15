@@ -18,3 +18,14 @@ variable "container_port" {
   type        = number
   default     = 8000
 }
+
+variable "mongodb_name" {
+  description = "Nombre de la base de datos"
+  type    = string
+}
+
+# Definimos las colecciones iniciales aquí
+variable "mongo_collections" {
+  description = "Colecciones a usar"
+  type    = list(string)
+}
