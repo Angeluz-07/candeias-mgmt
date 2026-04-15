@@ -3,4 +3,4 @@ uvicorn[standard]==0.24.0
 authx==1.5.1 # for auth
 pwdlib[argon2] # for auth(hashing)
 python-dotenv==1.2.2 # for env vars
-google-cloud-firestore # for firebase connection
+pymongo==4.16.0 # for mongodb/cosmosdb driver

@@ -1,10 +1,10 @@
 from src.repositories.user_repository import (
     InMemoryUserRepository,
-    FirebaseUserRepository,
+    CosmosUserRepository
 )
 from src.repositories.student_repository import (
     InMemoryStudentRepository,
-    FirebaseStudentRepository,
+    CosmosStudentRepository
 )
 from src.services.auth_service import AuthService
 from src.services.student_service import StudentService
@@ -14,11 +14,11 @@ from config import ENVIRONMENT
 
 class AppContext:
     def __init__(self):
-        self.user_repo = InMemoryUserRepository()
-        self.student_repo = InMemoryStudentRepository()
+        #self.user_repo = InMemoryUserRepository()        
+        #self.student_repo = InMemoryStudentRepository()
 
-        # self.user_repo = FirebaseUserRepository()
-        # self.student_repo = FirebaseStudentRepository()
+        self.user_repo = CosmosUserRepository()
+        self.student_repo = CosmosStudentRepository()
 
         self.auth_service = AuthService(user_repository=self.user_repo)
         self.student_service = StudentService(repository=self.student_repo)
