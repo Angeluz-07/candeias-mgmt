@@ -3,7 +3,7 @@
 <template>
   <div class="min-h-screen bg-[#0A0A0A] text-white flex flex-col font-sans">
     <main class="flex-1 p-6 space-y-1 max-w-lg mx-auto w-full">
-      Welcome to Home :)
+      Welcome to AboutUs :)
     </main>
   </div>
 </template>

@@ -4,6 +4,7 @@ import { useAuth } from '../composables/useAuth'
 import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import Navbar from './Navbar.vue';
 
 const { login, loading, error } = useAuth()
 

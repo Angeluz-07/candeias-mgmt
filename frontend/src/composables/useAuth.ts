@@ -27,7 +27,7 @@ export function useAuth() {
       // 3. Update Store completo
       store.setUser(userResponse.data);
 
-      router.push("/home");
+      router.push("/payments");
     } catch (err) {
       error.value = err.response?.data?.detail || "Error al iniciar sesión";
     } finally {
