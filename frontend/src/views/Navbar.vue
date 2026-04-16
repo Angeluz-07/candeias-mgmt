@@ -6,19 +6,29 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-vue-next";
 import { Flame } from "lucide-vue-next";
 import { useAuthStore } from "@/stores/auth";
-
-const menuItems = [
-  { name: "Inicio", to: "/" },
-  { name: "Historia", to: "/historia" },
-  { name: "Quienes Somos", to: "/nosotros" },
-  { name: "Contacto", to: "/contacto" },
-];
+import { LogOut } from "lucide-vue-next";
+import { computed } from 'vue'
 
 const isOpen = ref(false);
 const useAuth = useAuthStore();
 const handleLogout = () => {
   useAuth.logout()
 }
+
+const menuItems = [
+  { name: "Inicio", to: "/" , public: true},
+  { name: "Historia", to: "/historia" , public: true},
+  { name: "Quienes Somos", to: "/nosotros", public: true},
+  { name: "Contacto", to: "/contacto", public: true},
+  { name: "/ Pagos", to: "/payments", public: false},
+
+];
+
+const visibleMenuItems = computed(() => {
+  return menuItems.filter(item => item.public || useAuth.isAuthenticated)
+})
+
+
 </script>
 
 <template>
@@ -34,7 +44,7 @@ const handleLogout = () => {
             <SheetContent side="left" class="bg-black border-white/10">
               <div class="flex flex-col space-y-6 mt-10">
                 <RouterLink
-                  v-for="item in menuItems"
+                  v-for="item in visibleMenuItems"
                   :key="item.name"
                   :to="item.to"
                   @click="isOpen = false"
@@ -43,13 +53,21 @@ const handleLogout = () => {
                 >
                   {{ item.name }}
                 </RouterLink>
+
                 <Button
-                  asChild
-                  @click="isOpen = false"
-                  class="bg-[#FF6B00] w-full"
+                  v-if="useAuth.isAuthenticated"
+                  variant="ghost"
+                  @click="handleLogout"
+                  class="text-zinc-400 hover:text-[#FF6B00] hover:bg-zinc-900 transition-colors"
                 >
+                  <LogOut class="w-5 h-5 mr-2" />
+                  <span class=" sm:inline">Cerrar Sesión</span>
+                </Button>
+
+                <Button v-else asChild @click="isOpen = false" class="bg-[#FF6B00] w-full">
                   <RouterLink to="/login">Login</RouterLink>
                 </Button>
+
               </div>
             </SheetContent>
           </Sheet>
@@ -66,7 +84,7 @@ const handleLogout = () => {
 
         <div class="hidden md:flex items-center space-x-8">
           <RouterLink
-            v-for="item in menuItems"
+            v-for="item in visibleMenuItems"
             :key="item.name"
             :to="item.to"
             class="text-gray-300 hover:text-[#FF6B00] transition-colors text-sm font-medium"
