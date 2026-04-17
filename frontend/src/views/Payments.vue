@@ -20,11 +20,6 @@ const router = useRouter();
 // Computed or direct access works great with Pinia
 const user = authStore.user;
 
-const handleLogout = () => {
-  authStore.logout();
-  router.push({ name: "login" });
-  // You would typically redirect here, e.g., router.push('/login')
-};
 </script>
 
 <template>

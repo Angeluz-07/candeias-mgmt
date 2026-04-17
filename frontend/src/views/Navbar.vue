@@ -16,7 +16,7 @@ const handleLogout = () => {
 }
 
 const menuItems = [
-  { name: "Inicio", to: "/" , public: true},
+  //{ name: "Inicio", to: "/" , public: true},
   { name: "Historia", to: "/historia" , public: true},
   { name: "Quienes Somos", to: "/nosotros", public: true},
   { name: "Contacto", to: "/contacto", public: true},

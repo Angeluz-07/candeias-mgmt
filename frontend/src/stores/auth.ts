@@ -19,7 +19,7 @@ export const useAuthStore = defineStore('auth', () => {
     user.value = null
     token.value = null
 
-    router.push("/");
+    router.push("/historia");
   }
 
   return { user, token, isAuthenticated, setToken, setUser, logout }
