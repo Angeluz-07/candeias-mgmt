@@ -1,0 +1,23 @@
+@import "tailwindcss";
+@plugin "daisyui";
+
+/* 1. Tus Tokens para Tailwind (Utilidades) */
+@theme {
+  --color-primary: #f97316;
+  --color-secondary: #fb923c;
+}
+
+/* 2. El puente para DaisyUI (Componentes) */
+@layer base {
+  :root {
+    /* DaisyUI busca estas variables específicas */
+    --p: 24 95% 53%;      /* primary (equivalente a #f97316) */
+    --pf: 24 95% 45%;     /* primary-focus (un poco más oscuro) */
+    --pc: 0 0% 100%;      /* primary-content (texto sobre primary) */
+    
+    --b1: 0 0% 0%;        /* base-100 (tu fondo negro) */
+    --bc: 0 0% 100%;      /* base-content (texto sobre fondo negro) */
+    
+    /* DaisyUI usará esto automáticamente para sus componentes */
+  }
+}

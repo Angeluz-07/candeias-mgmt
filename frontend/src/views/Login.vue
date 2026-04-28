@@ -1,10 +1,5 @@
 <script setup lang="ts">
-// Assuming your auth logic is in a composable (like a hook)
 import { useAuth } from '../composables/useAuth'
-import { Card, CardContent } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
-import Navbar from './Navbar.vue';
 
 const { login, loading, error } = useAuth()
 
@@ -12,64 +7,62 @@ const handleSubmit = (e: Event) => {
   const target = e.target as HTMLFormElement
   const formData = new FormData(target)
   const data = Object.fromEntries(formData)
-  
-  // In Vue, we don't need to manually prevent default if we use 
-  // the @submit.prevent modifier in the template (see below)
   login(data)
 }
 </script>
 
 <template>
-  <div class="min-h-screen bg-[#0A0A0A] flex flex-col items-center justify-center p-6 text-white">
+  <div class="min-h-screen bg-black flex flex-col items-center justify-center p-6 text-white">
     <div class="w-full max-w-[360px] space-y-10">
       
       <div class="text-center">
         <h1 class="text-6xl font-black italic tracking-tighter">
-         Cande<span class="text-[#FF6B00]">ias</span>
+           Cande<span class="text-primary">ias</span>
         </h1>
         <p class="text-zinc-500 text-[10px] tracking-[0.3em] uppercase mt-2 font-bold">
-          Guayaquil - Ecuador
+           Guayaquil - Ecuador
         </p>
       </div>
 
-      <Card class="bg-zinc-900/40 border-zinc-800 backdrop-blur-xl rounded-2xl">
-        <CardContent class="pt-8 pb-8 space-y-6">
+      <div class="card bg-zinc-900/40 border border-white/5 backdrop-blur-xl rounded-2xl">
+        <div class="card-body pt-8 pb-8 space-y-6">
           <form @submit.prevent="handleSubmit" class="space-y-4">
             
-            <div class="space-y-1.5">
+            <div class="form-control w-full space-y-1.5">
               <label class="text-[10px] uppercase font-bold text-zinc-500 ml-1">Usuario</label>
-              <Input 
+              <input 
                 name="email" 
+                type="email"
                 placeholder="email" 
-                class="h-14 bg-zinc-800/50 border-none text-white rounded-xl focus:ring-[#FF6B00]" 
+                class="input input-bordered w-full h-14 bg-zinc-800/50 border-none text-white rounded-xl focus:outline-primary" 
               />
             </div>
 
-            <div class="space-y-1.5">
+            <div class="form-control w-full space-y-1.5">
               <label class="text-[10px] uppercase font-bold text-zinc-500 ml-1">Contraseña</label>
-              <Input 
+              <input 
                 name="password" 
                 type="password" 
                 placeholder="••••••••" 
-                class="h-14 bg-zinc-800/50 border-none text-white rounded-xl focus:ring-[#FF6B00]" 
+                class="input input-bordered w-full h-14 bg-zinc-800/50 border-none text-white rounded-xl focus:outline-primary" 
               />
             </div>
             
-            <p v-if="error" class="text-red-500 text-xs text-center font-bold animate-pulse">
+            <p v-if="error" class="text-error text-xs text-center font-bold animate-pulse">
               {{ error }}
             </p>
 
-            <Button 
+            <button 
               type="submit"
               :disabled="loading" 
-              class="w-full h-16 bg-[#FF6B00] hover:bg-[#e66000] text-black font-black text-xl rounded-xl transition-transform active:scale-95 shadow-[0_0_20px_rgba(255,107,0,0.3)]"
+              class="btn btn-primary w-full h-16 text-black font-black text-xl rounded-xl transition-transform active:scale-95 border-none"
             >
               {{ loading ? "Cargando..." : "Entrar" }}
-            </Button>
+            </button>
             
           </form>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
       
     </div>
   </div>

@@ -1,114 +1,99 @@
 <script setup>
-import { ref } from "vue";
-import { RouterLink } from "vue-router"; // Importante
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu } from "lucide-vue-next";
-import { Flame } from "lucide-vue-next";
+import { RouterLink } from "vue-router";
+import { Menu, Flame, LogOut } from "lucide-vue-next";
 import { useAuthStore } from "@/stores/auth";
-import { LogOut } from "lucide-vue-next";
 import { computed } from 'vue'
 
-const isOpen = ref(false);
 const useAuth = useAuthStore();
-const handleLogout = () => {
-  useAuth.logout()
-}
+const handleLogout = () => useAuth.logout();
 
 const menuItems = [
-  //{ name: "Inicio", to: "/" , public: true},
-  { name: "Historia", to: "/historia" , public: true},
-  { name: "Quienes Somos", to: "/nosotros", public: true},
-  { name: "Contacto", to: "/contacto", public: true},
-  { name: "/ Pagos", to: "/payments", public: false},
-
+  { name: "Historia", to: "/historia" },
+  { name: "Quienes Somos", to: "/nosotros" },
+  { name: "Contacto", to: "/contacto" },
+  { name: "Pagos", to: "/payments", private: true },
 ];
 
 const visibleMenuItems = computed(() => {
-  return menuItems.filter(item => item.public || useAuth.isAuthenticated)
-})
-
-
+  return menuItems.filter(item => !item.private || useAuth.isAuthenticated);
+});
 </script>
 
 <template>
-  <nav class="bg-black border-b border-white/10 sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="flex items-center justify-between h-16">
-        
-        <div class="md:hidden">
-          <Sheet v-model:open="isOpen">
-            <SheetTrigger asChild>
-              <Button variant="ghost" class="text-white"><Menu /></Button>
-            </SheetTrigger>
-            <SheetContent side="left" class="bg-black border-white/10">
-              <div class="flex flex-col space-y-6 mt-10">
-                <RouterLink
-                  v-for="item in visibleMenuItems"
-                  :key="item.name"
-                  :to="item.to"
-                  @click="isOpen = false"
-                  class="text-gray-300 hover:text-[#FF6B00] text-lg"
-                  active-class="text-[#FF6B00]"
-                >
-                  {{ item.name }}
-                </RouterLink>
+  <div class="drawer z-50">
+    <input id="nav-drawer" type="checkbox" class="drawer-toggle" />
+    
+    <div class="drawer-content flex flex-col">
+      <nav class="bg-black border-b border-white/10 w-full h-16">
+        <div class="max-w-7xl mx-auto px-4 h-full flex items-center justify-between">
+          
+          <label for="nav-drawer" class="btn btn-ghost btn-sm md:hidden text-white">
+            <Menu class="w-6 h-6" />
+          </label>
 
-                <Button
-                  v-if="useAuth.isAuthenticated"
-                  variant="ghost"
-                  @click="handleLogout"
-                  class="text-zinc-400 hover:text-[#FF6B00] hover:bg-zinc-900 transition-colors"
-                >
-                  <LogOut class="w-5 h-5 mr-2" />
-                  <span class=" sm:inline">Cerrar Sesión</span>
-                </Button>
-
-                <Button v-else asChild @click="isOpen = false" class="bg-[#FF6B00] w-full">
-                  <RouterLink to="/login">Login</RouterLink>
-                </Button>
-
-              </div>
-            </SheetContent>
-          </Sheet>
-        </div>
-        
-        <RouterLink to="/" class="text-white">
-          <div class="flex items-center gap-2">
-            <Flame class="text-[#FF6B00] w-8 h-8" />
-            <span class="font-black italic text-2xl tracking-tighter">
-              Cande<span class="text-[#FF6B00]">ias</span>
-            </span>
-          </div>
-        </RouterLink>
-
-        <div class="hidden md:flex items-center space-x-8">
-          <RouterLink
-            v-for="item in visibleMenuItems"
-            :key="item.name"
-            :to="item.to"
-            class="text-gray-300 hover:text-[#FF6B00] transition-colors text-sm font-medium"
-            active-class="text-[#FF6B00]"
-          >
-            {{ item.name }}
+          <RouterLink to="/" class="text-white">
+            <div class="flex items-center gap-2">
+              <Flame class="text-primary w-8 h-8" />
+              <span class="font-black italic text-2xl tracking-tighter">
+                Cande<span class="text-primary">ias</span>
+              </span>
+            </div>
           </RouterLink>
 
-        <Button
+          <div class="hidden md:flex items-center space-x-8">
+            <RouterLink
+              v-for="item in visibleMenuItems"
+              :key="item.name"
+              :to="item.to"
+              class="text-gray-300 hover:text-primary transition-colors text-sm font-medium"
+              active-class="text-primary"
+            >
+              {{ item.name }}
+            </RouterLink>
+
+            <button
+              v-if="useAuth.isAuthenticated"
+              @click="handleLogout"
+              class="btn btn-ghost btn-sm text-zinc-400 hover:text-primary"
+            >
+              <LogOut class="w-5 h-5 mr-2" />
+              Cerrar Sesión
+            </button>
+
+            <RouterLink v-else to="/login" class="btn btn-primary btn-sm text-white">
+              Login
+            </RouterLink>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <div class="drawer-side">
+      <label for="nav-drawer" class="drawer-overlay"></label>
+      <div class="p-4 w-80 min-h-full bg-black border-r border-white/10 flex flex-col gap-6 pt-10">
+        <RouterLink
+          v-for="item in visibleMenuItems"
+          :key="item.name"
+          :to="item.to"
+          class="text-gray-300 hover:text-primary text-lg"
+          active-class="text-primary"
+        >
+          {{ item.name }}
+        </RouterLink>
+
+        <button
           v-if="useAuth.isAuthenticated"
-          variant="ghost"
           @click="handleLogout"
-          class="text-zinc-400 hover:text-[#FF6B00] hover:bg-zinc-900 transition-colors"
+          class="btn btn-ghost justify-start text-zinc-400 hover:text-primary"
         >
           <LogOut class="w-5 h-5 mr-2" />
-          <span class="hidden sm:inline">Cerrar Sesión</span>
-        </Button>
+          Cerrar Sesión
+        </button>
 
-        <Button v-else asChild class="bg-[#FF6B00] hover:bg-orange-600 text-white">
-          <RouterLink to="/login">Login</RouterLink>
-        </Button>
-        </div>
-
+        <RouterLink v-else to="/login" class="btn btn-primary w-full">
+          Login
+        </RouterLink>
       </div>
     </div>
-  </nav>
+  </div>
 </template>
