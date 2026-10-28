@@ -18,3 +18,10 @@ deploy.bat
 
 #other
 recipe
+
+# python
+.venv
+*.pyc
+__pycache__
+workspace/default
+.env

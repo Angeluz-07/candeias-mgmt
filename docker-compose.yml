@@ -1,0 +1,27 @@
+services:
+  rest_api_mg:
+    image: angeluz07/mygym:0.0.1 # use local if exists
+    build: # if doesnt, build it
+      context: .
+      dockerfile: ./deploy/Dockerfile
+    container_name: rest_api_mg
+    ports:
+      - "8000:8000"
+    extra_hosts:
+      - "localhost:host-gateway"
+    environment:
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS}
+    command: ["uvicorn", "src.api.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+    volumes:
+      - ./src:/app/src:z
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 0.25G
+        reservations:
+          cpus: "0.5"
+          memory: 0.25G  
+    profiles:
+      - rest_api_mg
+ 
