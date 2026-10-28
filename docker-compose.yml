@@ -11,6 +11,7 @@ services:
       - "localhost:host-gateway"
     environment:
       - ALLOWED_ORIGINS=${ALLOWED_ORIGINS}
+      - CLERK_URI=${CLERK_URI}
     command: ["uvicorn", "src.api.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
     volumes:
       - ./src:/app/src:z

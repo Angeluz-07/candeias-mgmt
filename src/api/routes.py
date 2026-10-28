@@ -1,5 +1,12 @@
 from fastapi import APIRouter, HTTPException
 from typing import List
+from fastapi import FastAPI, Depends
+
+import os
+import jwt
+from fastapi import Depends, HTTPException, status
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from src.config import CLERK_URI
 
 # from src.domain.models import Student
 # from src.context import student_service
@@ -10,6 +17,40 @@ router = APIRouter()
 @router.get("/health")
 def health():
     return {"message": "ok"}
+
+
+security = HTTPBearer()
+jwk_client = jwt.PyJWKClient(CLERK_URI)
+
+def get_current_user(
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+) -> dict:
+    token = credentials.credentials
+    try:
+        # Obtener la llave de firma correspondiente
+        signing_key = jwk_client.get_signing_key_from_jwt(token)
+
+        # Validar la firma criptográfica (RS256) y el tiempo de expiración
+        payload = jwt.decode(
+            token, signing_key.key, algorithms=["RS256"], options={"verify_aud": False}
+        )
+        return payload
+    except jwt.ExpiredSignatureError:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, detail="El token ha expirado"
+        )
+    except jwt.PyJWTError as e:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Token inválido o no autorizado",
+        )
+
+
+# Uso en tus endpoints:
+@router.get("/auth/test")
+def endpoint_protegido(user: dict = Depends(get_current_user)):
+    user_id = user.get("sub")  # Contiene el ID único de Clerk (user_2xxxx)
+    return {"status": "ok", "user_id": user_id}
 
 
 # @router.get("/students/{student_id}", response_model=Student)

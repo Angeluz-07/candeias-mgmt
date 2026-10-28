@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import MarkdownIt from "markdown-it";
 // Eliminamos todos los imports de shadcn
 import { ListIcon } from "lucide-vue-next";
@@ -23,6 +23,15 @@ const secciones = [
 
 const activeSection = ref(secciones[0].id);
 const isDrawerOpen = ref(false); // Para el menú móvil
+
+
+// onMounted(async () => {
+//   // Espera a que Clerk cargue por completo y fuerza la impresión del token
+//   const token = await window.Clerk?.session?.getToken()
+//   console.log("🔥 MI JWT DE CLERK:", token)
+// })
+
+
 </script>
 
 <template>
