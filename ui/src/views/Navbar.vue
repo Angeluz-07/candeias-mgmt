@@ -2,7 +2,8 @@
 import { RouterLink } from "vue-router";
 import { Menu, Flame, LogOut } from "lucide-vue-next";
 import { useAuthStore } from "@/stores/auth";
-import { computed } from 'vue'
+import { computed } from "vue";
+import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/vue";
 
 const useAuth = useAuthStore();
 const handleLogout = () => useAuth.logout();
@@ -15,19 +16,23 @@ const menuItems = [
 ];
 
 const visibleMenuItems = computed(() => {
-  return menuItems.filter(item => !item.private || useAuth.isAuthenticated);
+  return menuItems.filter((item) => !item.private || useAuth.isAuthenticated);
 });
 </script>
 
 <template>
   <div class="drawer z-50">
     <input id="nav-drawer" type="checkbox" class="drawer-toggle" />
-    
+
     <div class="drawer-content flex flex-col">
       <nav class="bg-black border-b border-white/10 w-full h-16">
-        <div class="max-w-7xl mx-auto px-4 h-full flex items-center justify-between">
-          
-          <label for="nav-drawer" class="btn btn-ghost btn-sm md:hidden text-white">
+        <div
+          class="max-w-7xl mx-auto px-4 h-full flex items-center justify-between"
+        >
+          <label
+            for="nav-drawer"
+            class="btn btn-ghost btn-sm md:hidden text-white"
+          >
             <Menu class="w-6 h-6" />
           </label>
 
@@ -60,9 +65,17 @@ const visibleMenuItems = computed(() => {
               Cerrar Sesión
             </button>
 
-            <RouterLink v-else to="/login" class="btn btn-primary btn-sm text-white">
-              Login
-            </RouterLink>
+            <Show when="signed-out">
+              <div class="btn btn-primary btn-sm text-white">
+                <SignInButton />
+              </div>
+              <div class="btn btn-primary btn-sm text-white">
+                <SignUpButton />
+              </div>
+            </Show>
+            <Show when="signed-in">
+              <UserButton />
+            </Show>
           </div>
         </div>
       </nav>
@@ -70,7 +83,9 @@ const visibleMenuItems = computed(() => {
 
     <div class="drawer-side">
       <label for="nav-drawer" class="drawer-overlay"></label>
-      <div class="p-4 w-80 min-h-full bg-black border-r border-white/10 flex flex-col gap-6 pt-10">
+      <div
+        class="p-4 w-80 min-h-full bg-black border-r border-white/10 flex flex-col gap-6 pt-10"
+      >
         <RouterLink
           v-for="item in visibleMenuItems"
           :key="item.name"
