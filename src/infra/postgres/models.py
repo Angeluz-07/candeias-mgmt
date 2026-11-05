@@ -26,6 +26,7 @@ class MemberBase(Base):
     phone = Column(String, nullable=False)
     created_at = Column(Date, nullable=False)
 
+    membership = relationship("MembershipBase", back_populates="member", uselist=False, cascade="all, delete-orphan")
 
 class GymBase(Base):
     """
@@ -48,10 +49,13 @@ class MembershipBase(Base):
 
     # In SQL, the primary key (id) is typically an auto-incrementing integer.
     id = Column(String, primary_key=True, index=True)
-    duration = Column(Integer, nullable=False)
-    cost = Column(Float, nullable=False)
     gym_id = Column(String, ForeignKey("gyms.id"), nullable=False)
     member_id = Column(String, ForeignKey("members.id"), nullable=False)
 
+    start_date = Column(Date, nullable=False)
+    due_date = Column(Date, nullable=False)       # Día límite de pago fijo (ej. el 5)
+    expires_at = Column(Date, nullable=False)     # Fin de cobertura
+    cost = Column(Float, nullable=False)
+
     gym = relationship("GymBase")
-    member = relationship("MemberBase")
+    member = relationship("MemberBase", back_populates="membership")

@@ -4,3 +4,4 @@ python-dotenv==1.2.2 # for env vars
 pyjwt[crypto]
 psycopg[binary]>=3.0
 sqlalchemy>=2.0
+python-dateutil

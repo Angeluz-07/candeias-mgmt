@@ -1,11 +1,11 @@
-from src.infra.postgres.repo import PostgresRepository
+from src.infra.postgres.repo import PostgresMemberRepository
 from src.infra.postgres.models import MemberBase
 from src.domain.models import Member
 
 
 class MemberService:
 
-    def __init__(self, repo: PostgresRepository):
+    def __init__(self, repo: PostgresMemberRepository):
         self.repo = repo
 
     # def add_member(self, name: str, email: str, phone: str) -> bool:
@@ -14,11 +14,9 @@ class MemberService:
 
     def get_all(self):
         result = []
-        db_result = self.repo.get_all()
-        for x in db_result:
-            m = self._map_db_to_domain(x)
-            result.append(m)
-        return result
+        items = self.repo.get_all()
+        return items            
+        
 
     def _map_domain_to_db(self, item: Member):
         return MemberBase(

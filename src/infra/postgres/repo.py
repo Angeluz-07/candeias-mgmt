@@ -17,7 +17,6 @@ def get_postgres_session(database_url: str):
     session = SessionLocal()
     try:
         yield session
-        session.commit()
     except Exception:
         session.rollback()
         raise
@@ -25,14 +24,54 @@ def get_postgres_session(database_url: str):
         session.close()
 
 
-class PostgresRepository:
-    def __init__(self, session: Session, model: Type[Any]):
+from src.infra.postgres.models import MemberBase, MembershipBase
+from src.domain.models import Member, Membership
+from sqlalchemy.orm import joinedload
+
+
+class PostgresMemberRepository:
+    def __init__(self, session: Session):
         self.session = session
-        self.model = model
+
+    def _map_db_to_domain(self, item: MemberBase) -> Member:
+        domain_membership = None
+        if item.membership:
+            domain_membership = Membership(
+                id=item.membership.id,
+                member_id=item.membership.member_id,
+                gym_id=item.membership.gym_id,
+                start_date=item.membership.start_date,
+                due_date=item.membership.due_date,
+                expires_at=item.membership.expires_at,
+                cost=item.membership.cost,
+            )
+
+        # 3. Mapeamos el Miembro de DB a Dominio inyectándole la membresía
+        result = Member(
+            id=item.id,
+            name=item.name,
+            email=item.email,
+            phone=item.phone,
+            created_at=item.created_at,
+            membership=domain_membership,
+        )
+        return result
 
     def get_all(self):
-        result = self.session.query(self.model).all()
-        return result
+        db_members = (
+            self.session.query(MemberBase)
+            .outerjoin(MemberBase.membership)  # Relación 1 a 1
+            .options(joinedload(MemberBase.membership))
+            .all()
+        )
+
+        domain_members = []
+        for db_m in db_members:
+            # 2. Mapeamos la membresía de DB a Dominio (si existe)
+            domain_member = self._map_db_to_domain(db_m)
+            domain_members.append(domain_member)
+
+        return domain_members
 
     def add(self, entity: Type[Any]):
         self.session.add(entity)
