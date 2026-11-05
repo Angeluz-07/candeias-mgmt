@@ -7,11 +7,14 @@ import jwt
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from src.config import CLERK_URI
+from src.context import APIContext
+from src.api.models import AddMemberRequest
 
 # from src.domain.models import Student
 # from src.context import student_service
 
 router = APIRouter()
+context = APIContext()
 
 
 @router.get("/health")
@@ -21,6 +24,7 @@ def health():
 
 security = HTTPBearer()
 jwk_client = jwt.PyJWKClient(CLERK_URI)
+
 
 def get_current_user(
     credentials: HTTPAuthorizationCredentials = Depends(security),
@@ -53,12 +57,15 @@ def endpoint_protegido(user: dict = Depends(get_current_user)):
     return {"status": "ok", "user_id": user_id}
 
 
-# @router.get("/students/{student_id}", response_model=Student)
-# def get_student(student_id: int):
-#     student = student_service.get_student_by_id(student_id)
-#     if not student:
-#         raise HTTPException(status_code=404, detail="Student not found")
-#     return student
+@router.get("/members")
+def get_members():
+    return context.member_service.get_all()
+
+
+@router.post("/members")
+def add_member(payload: AddMemberRequest):
+    m = context.member_service.add_member(**payload.model_dump())
+    return m
 
 
 # @router.post("/students", response_model=Student)

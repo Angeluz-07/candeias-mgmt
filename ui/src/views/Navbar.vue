@@ -12,7 +12,7 @@ const menuItems = [
   { name: "Historia", to: "/historia" },
   { name: "Quienes Somos", to: "/nosotros" },
   { name: "Contacto", to: "/contacto" },
-  { name: "Pagos", to: "/payments", private: true },
+  { name: "Dashboard", to: "/dashboard", private: true },
 ];
 
 const visibleMenuItems = computed(() => {
@@ -56,14 +56,6 @@ const visibleMenuItems = computed(() => {
               {{ item.name }}
             </RouterLink>
 
-            <button
-              v-if="useAuth.isAuthenticated"
-              @click="handleLogout"
-              class="btn btn-ghost btn-sm text-zinc-400 hover:text-primary"
-            >
-              <LogOut class="w-5 h-5 mr-2" />
-              Cerrar Sesión
-            </button>
 
             <Show when="signed-out">
               <div class="btn btn-primary btn-sm text-white">

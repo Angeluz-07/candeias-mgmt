@@ -1,29 +1,44 @@
 import { defineStore } from 'pinia'
-import { ref, computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { computed } from 'vue'
+import { useAuth, useUser } from '@clerk/vue'
 
 export const useAuthStore = defineStore('auth', () => {
-  const router = useRouter()
-  const user = ref<any>(null)
-  const token = ref<string | null>(null)
-  const isAuthenticated = computed(() => !!token?.value)
+  // Extraemos las herramientas oficiales de Clerk
+  const { getToken, isLoaded, isSignedIn, signOut } = useAuth()
+  const { user } = useUser()
 
-  function setToken(newToken: string) {
-    token.value = newToken
+  // Propiedades computadas limpias expuestas para toda la app
+  const isAuthenticated = computed(() => !!isSignedIn.value)
+  const currentUser = computed(() => user.value)
+  const loading = computed(() => !isLoaded.value)
+
+  // Método centralizado para obtener el token JWT para la API / Axios
+  const getAuthToken = async () => {
+    try {
+      if (getToken.value) {
+        return await getToken.value()
+      }
+      return null
+    } catch (error) {
+      console.error('Error al obtener el token en el store:', error)
+      return null
+    }
   }
-  function setUser(newUser: any) {
-    user.value = newUser
+
+  // Método centralizado para cerrar sesión
+  const logout = async () => {
+    try {
+      await signOut.value()
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error)
+    }
   }
 
-  function logout() {
-    user.value = null
-    token.value = null
-
-    router.push("/historia");
+  return {
+    isAuthenticated,
+    currentUser,
+    loading,
+    getAuthToken,
+    logout
   }
-
-  return { user, token, isAuthenticated, setToken, setUser, logout }
-}, 
-{
-  persist: true // <--- Con esto, Pinia se encarga de todo el LocalStorage por ti
 })

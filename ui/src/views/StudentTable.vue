@@ -51,9 +51,9 @@ onMounted(() => {
       class="p-datatable-sm"
     >
       <Column field="id" header="ID" sortable />
-      <Column field="name" header="Alumno" sortable />
-      <Column field="status" header="Status" />
-      <Column field="email" header="Email" />
+      <Column field="name" header="Miembro" sortable />
+      <Column field="status" header="Estado" />
+      <Column field="email" header="Acción" />
     </DataTable>
   </div>
 </template>

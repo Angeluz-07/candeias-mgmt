@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-import Home from "../views/Home.vue";
 import { useAuthStore } from "@/stores/auth";
 
 const router = createRouter({
@@ -31,13 +30,15 @@ const router = createRouter({
       component: () => import("../views/Login.vue"),
     },
     {
-      path: "/payments",
-      name: "payments",
-      component: () => import("../views/Payments.vue"),
+      path: "/dashboard",
+      name: "dashboard",
+      component: () => import("../views/dashboard/DashboardTab.vue"),
       meta: { requiresAuth: true },
     },
   ],
 });
+
+
 
 router.beforeEach(async (to) => {
   const authStore = useAuthStore();
